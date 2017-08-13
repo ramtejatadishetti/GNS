@@ -22,6 +22,7 @@ package edu.umass.cs.gnsclient.console.commands;
 
 
 import edu.umass.cs.gnsclient.client.GNSClient;
+import edu.umass.cs.gnsclient.client.GNSClientCommands;
 import edu.umass.cs.gnsclient.client.GNSCommand;
 import edu.umass.cs.gnsclient.client.util.GuidEntry;
 import edu.umass.cs.gnsclient.client.util.GuidUtils;
@@ -72,7 +73,7 @@ public class AccountCreateWithCertificate extends ConsoleCommand
   public void parse(String commandText) throws Exception
   {
       StringParser st = new StringParser(commandText.trim());
-      printString("I am here \n");
+  
       if ((st.countTokens() != 3))
       {
         wrongArguments();
@@ -90,11 +91,11 @@ public class AccountCreateWithCertificate extends ConsoleCommand
 
     try
     {
-      GNSClient gnsClient = module.getGnsClient();
+      GNSClientCommands gnsClient = module.getGnsClient();
 
       try
       {
-        gnsClient.execute(GNSCommand.lookupGUID(aliasName)).getResultString();
+        gnsClient.lookupGuid(aliasName);
         if (!module.isSilent())
         {
           printString("Alias " + aliasName + " already exists.\n");
@@ -105,7 +106,7 @@ public class AccountCreateWithCertificate extends ConsoleCommand
       {
         // The alias does not exists, that's good, let's create it
       }
-      GuidEntry myGuid =  GuidUtils.accountGuidCreateWithCertificate(gnsClient, password,certificatePath, privateKeyPath );
+      GuidEntry myGuid =  gnsClient.accountGuidCreateWithCertificate(password,certificatePath, privateKeyPath );
 
       if (!module.isSilent())
       {
