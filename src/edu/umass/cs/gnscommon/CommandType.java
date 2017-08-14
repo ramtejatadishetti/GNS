@@ -1885,6 +1885,7 @@ public enum CommandType {
         LookupPrimaryGuid.setChain(ReadUnsigned);
         LookupGuidRecord.setChain();
         RegisterAccount.setChain(ReadUnsigned);
+        RegisterAccountWithCertificate.setChain(ReadUnsigned);
         RegisterAccountSecured.setChain(ReadUnsigned);
         ResendAuthenticationEmail.setChain();
         RemoveAlias.setChain(ReadUnsigned, ReplaceUserJSONUnsigned);

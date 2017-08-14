@@ -20,6 +20,7 @@
 package edu.umass.cs.gnsclient.client.singletests.simple;
 
 import edu.umass.cs.gnsclient.client.GNSClient;
+import edu.umass.cs.gnsclient.client.GNSClientCommands;
 import edu.umass.cs.gnsclient.client.GNSCommand;
 import edu.umass.cs.gnsclient.client.util.GuidEntry;
 import edu.umass.cs.gnsclient.client.util.GuidUtils;
@@ -41,7 +42,7 @@ import java.io.IOException;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CreateAccountWithCertificate extends DefaultGNSTest {
 
-    private static GNSClient gnsClient;
+    private static GNSClientCommands gnsClientCommands;
     private static final String TEST_ACCOUNT_ALIAS = "firsttest";
     private static final String TEST_ACCOUNT_PASSWORD = "password";
     private static GuidEntry testGuid;
@@ -51,10 +52,10 @@ public class CreateAccountWithCertificate extends DefaultGNSTest {
      *
      */
     public CreateAccountWithCertificate() {
-        if (gnsClient == null) {
+        if (gnsClientCommands == null) {
             try {
-                gnsClient = new GNSClient();
-                gnsClient.setForceCoordinatedReads(true);
+                gnsClientCommands = new GNSClientCommands(client);
+                gnsClientCommands.setForceCoordinatedReads(true);
             } catch (IOException e) {
                 Utils.failWithStackTrace("Exception creating client: " + e);
             }
@@ -69,7 +70,7 @@ public class CreateAccountWithCertificate extends DefaultGNSTest {
         try {
             String certificateFileName = "/home/tramteja/work/gns_source/GNS/certificate_firsttest.crt";
             String privateKeyFileName = "/home/tramteja/work/gns_source/GNS/final_key.pem";
-            testGuid = GuidUtils.lookupOrCreateAccountGuidWithCertificate(gnsClient, certificateFileName,
+            testGuid = GuidUtils.lookupOrCreateAccountGuidWithCertificate(gnsClientCommands, certificateFileName,
                     privateKeyFileName, "password", true);
 
             KeyPairUtils.removeKeyPair(GNSClient.getGNSProvider(), "firsttest");
